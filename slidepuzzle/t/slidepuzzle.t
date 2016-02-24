@@ -64,6 +64,8 @@ ok (scalar(keys( %numcheck )) == 0, 'found all pieces' );
 
 # test moving pieces 
 
+
+
 # test winning conditions
 
 # test view
