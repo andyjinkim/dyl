@@ -4,7 +4,7 @@ use warnings;
 use Data::Dumper qw(Dumper);
 use List::Util qw(shuffle);
 
-my @data;
+my @databoard;
 my @board;
 
 sub new
@@ -76,12 +76,15 @@ sub get_initial_board
 		return \@parts;
 	};
 
+#print Dumper \@data;
+@databoard = distribute($m, \@data);
+#print Dumper @databoard;
 my @shuffled = shuffle @data;
 my @shuffledarray = \@shuffled;
 @board = distribute($m, @shuffledarray);
-print Dumper @board;
+#print Dumper @board;
 # swaps indexes
-($board[0][0][0], $board[0][0][1]) = ($board[0][0][1], $board[0][0][0]);
+#($board[0][0][0], $board[0][0][1]) = ($board[0][0][1], $board[0][0][0]);
 print Dumper @board;
 }
 
@@ -93,31 +96,47 @@ get_initial_board($b);
 #	print "Congrats, you've completed the puzzle!\n" 
 #}
 #else
-if(@board != @data)
-{
+print Dumper @board, @databoard;
+until(@board == @data)
+{	
 	print "Which number would you like to switch with undefined?";
 	defined(my $p = <>) or return;
-	for(my $i=0; $i<3; $i++)
+	my $index1;
+	my $index2;
+	my $index3;
+	my $index4;
+	for($i=0; $i<3; $i++)
 	{
-		for(my $j=0; $j<3; $j++)
+		for($j=0; $j<3; $j++)
 		{
 			if($p == $board[0][$i][$j])
 			{
-				# This currently prints the index of the user input value
-				print($i, " ",  $j, "\n");
+				# This currently prints the index of the user input value				
+				#print($i, " ",  $j, "\n");
+				$index1 = $i;
+				$index2 = $j;	
 				print Dumper @board;
 			};
 		}; 
 	};
-	#for(my $q=0; $q<3; $q++)
-	#{
-		#for(my $r=0; $r<3; $r++)
-		#{
+	for($q=0; $q<3; $q++)
+	{
+		for($r=0; $r<3; $r++)
+		{
+			if($board[0][$q][$r] == undef)
+			{
+				#print($q, " ", $r, "\n");
+				$index3 = $q;
+				$index4 = $r;
+			};
+		};
+	};
+	print Dumper $index1;
+	($board[0][$index1][$index2], $board[0][$index3][$index4]) = ($board[0][$index3][$index4], $board[0][$index1][$index2]);
+	#($board[0][$i][$j], $board[0][$q][$r]) = ($board[0][$q][$r], $board[0][$i][$j]);
+	#print Dumper([$board[0][$i][$j], $board[0][$q][$r]]);
+	print Dumper @board;
 };
-else
-{
-	print "Congrats, you've completed the puzzle!\n";
-}
 #$index++ until $board[$index] == $p;# or $index > $#a;
 #print $index; 
 
