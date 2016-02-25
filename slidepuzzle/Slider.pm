@@ -38,6 +38,7 @@ sub get_initial_board
 
 	my @shuffled = shuffle @data;	
 	my $databoard = distribute($m, \@shuffled);
+	print Dumper $databoard;
 	# $obj is a hash. storing the $databoard value in the key board 
 	$obj->{'board'} = $databoard;
 	return $databoard;
@@ -53,6 +54,24 @@ sub distribute
 		push @{$parts[$i++ % $n]}, $elem;
 	};
 	return \@parts;
+}
+
+sub print_board
+{
+	my $obj = shift;
+	my $board = $obj->{'board'};
+	my $spaces = "--+";
+	my $rows = "\n|";
+	foreach my $outer (0 .. $#{$board})
+	{
+		print "$rows";
+		my $inner = $board->[$outer];
+		foreach my $col (0 .. $#{$inner})
+		{
+			print "$spaces". [$inner];
+		}
+	}
+	print Dumper $board;
 }
 
 1;
