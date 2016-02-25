@@ -68,10 +68,9 @@ sub print_board
 		my $inner = $board->[$outer];
 		foreach my $col (0 .. $#{$inner})
 		{
-			print "$spaces". [$inner];
+			print "$spaces". $inner->[$col];
 		}
 	}
-	print Dumper $board;
 }
 
 1;
